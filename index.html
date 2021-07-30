@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html margin="0", padding="0">
     <head>
 		<title>Luke's Personal Site</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<!-- <link type="text/css" rel="stylesheet" href="main.css"> -->
+		<link type="text/css" rel="stylesheet" href="reset.css">
 	</head>
-    <body>
+    <body margin="0", padding="0">
+        <div class=animationPanel > </div>
         <script src="js/three.js"></script>
         <script type="x-shader/x-vertex" id="vertexshader">
 
@@ -56,17 +57,31 @@
             animate();
 
 
+            var transitionTimeInMilliseconds = 1000;
+            var oldColor = [0, 0, 0]
+            var newColor = [0,0,0]
+
+            //setInterval(function, milliseconds)
+
+            function changeColorSmoothly()
+            {
+                let halfMax = 255/2;
+                newColor[0] = Math.random() * halfMax;
+                newColor[1] = Math.random() * halfMax;
+                newColor[2] = Math.random() * halfMax;
 
 
+            }
 
             function init()
             {
-                container = document.createElement( 'div' );
-				document.body.appendChild( container );
-
+                // container = document.createElement( 'div' );
+				// document.body.appendChild( container );
+                
+                container = document.getElementsByClassName("animationPanel")[0];
 				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
 				camera.position.z = 1000;
-
+                camera.position.y = 10000;
 				scene = new THREE.Scene();
 
 				//
@@ -125,8 +140,6 @@
 				container.style.touchAction = 'none';
 				//container.addEventListener( 'pointermove', onPointerMove );
 
-				//
-
 				window.addEventListener( 'resize', onWindowResize );
             }
 
@@ -144,7 +157,7 @@
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
 
-                renderer.setSize( window.innerWidth, window.innerHeight );
+                renderer.setSize( window.innerWidth, window.innerHeight);
             }
 
             function onPointerMove( event ) 
@@ -158,8 +171,8 @@
             function render() 
             {
 
-                camera.position.x += ( mouseX - camera.position.x ) * .05;
-                camera.position.y += ( - mouseY - camera.position.y ) * .05;
+                camera.position.x += ( mouseX - camera.position.x ) * .005;
+                camera.position.y += ( - mouseY - camera.position.y ) * .005 + 1;
                 camera.lookAt( scene.position );
 
                 const positions = particles.geometry.attributes.position.array;
@@ -171,11 +184,11 @@
                 {
                     for ( let iy = 0; iy < AMOUNTY; iy ++ ) 
                     {
-                        positions[ i + 1 ] = ( Math.sin( ( ix + count ) * 0.3 ) * 50 ) +
-                                        ( Math.sin( ( iy + count ) * 0.5 ) * 50 );
+                        positions[ i + 1 ] = ( Math.sin( ( ix + count ) * 0.1 ) * 50 ) +
+                                        ( Math.sin( ( iy + count ) * 0.3 ) * 50 );
 
-                        scales[ j ] = ( Math.sin( ( ix + count ) * 0.3 ) + 1 ) * 20 +
-                                        ( Math.sin( ( iy + count ) * 0.5 ) + 1 ) * 20;
+                        scales[ j ] = ( Math.sin( ( ix + count ) * 0.1 ) + 1 ) * 20 +
+                                        ( Math.sin( ( iy + count ) * 0.3 ) + 1 ) * 20;
 
                         i += 3;
                         j ++;
@@ -192,6 +205,7 @@
             }
 		</script>
 
+        <div>Here is some data that I am writing out for a test</div>
     </body>
 </html>
 
