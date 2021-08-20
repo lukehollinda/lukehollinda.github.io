@@ -1,0 +1,38 @@
+
+#animationPanel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -1;
+}
+
+#nameTitle
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center; 
+
+
+    border: 3px solid rgb(0, 173, 0); 
+    z-index: 1;
+    
+    font-family: Alegreya Sans SC, sans-serif;
+    font-size: 7vh;
+    font-weight: 100;
+    color: rgba(255, 255, 255, 1);
+    text-transform: none;
+    font-style: normal;
+    text-decoration: none;
+    letter-spacing: 0px;
+    text-shadow: 2px 0px 0px rgba(0, 0, 0, 1);
+
+}
+
+div {
+    height: 100vh;
+    line-height: 60vh;
+    /* text-align: center; */
+    border: 2px dashed #f69c55;
+  }
+

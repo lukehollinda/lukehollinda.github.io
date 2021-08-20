@@ -4,10 +4,26 @@
 		<title>Luke's Personal Site</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="reset.css">
+		<link type="text/css" rel="stylesheet" href="./css/reset.css">
+        <link type="text/css" rel="stylesheet" href="./css/custom.css">
 	</head>
     <body margin="0", padding="0">
-        <div class=animationPanel > </div>
+        <div id=animationPanel> </div>
+
+		<div class="nameContainer">
+		<h1 id="nameTitle">Luke Hollinda</h1>
+		<div id="like_button_container"></div>
+
+		</div>
+
+
+
+
+
+
+
+
+        <!-- Load Three.js animation-->
         <script src="js/three.js"></script>
         <script type="x-shader/x-vertex" id="vertexshader">
 
@@ -35,177 +51,18 @@
 				gl_FragColor = vec4( color, 1.0 );
 
 			}
-
-		</script>
-        <script>
-
-
-			
-            const SEPARATION = 100, AMOUNTX = 50, AMOUNTY = 50;
-
-            let container, camera, scene, renderer;
-
-            let particles, count = 0;
-
-            let mouseX = 0, mouseY = 0;
-
-            let windowHalfX = window.innerWidth / 2;
-            let windowHalfY = window.innerHeight / 2;
-
-
-            init();
-            animate();
-
-
-            var transitionTimeInMilliseconds = 1000;
-            var oldColor = [0, 0, 0]
-            var newColor = [0,0,0]
-
-            //setInterval(function, milliseconds)
-
-            function changeColorSmoothly()
-            {
-                let halfMax = 255/2;
-                newColor[0] = Math.random() * halfMax;
-                newColor[1] = Math.random() * halfMax;
-                newColor[2] = Math.random() * halfMax;
-
-
-            }
-
-            function init()
-            {
-                // container = document.createElement( 'div' );
-				// document.body.appendChild( container );
-                
-                container = document.getElementsByClassName("animationPanel")[0];
-				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-				camera.position.z = 1000;
-                camera.position.y = 10000;
-				scene = new THREE.Scene();
-
-				//
-
-				const numParticles = AMOUNTX * AMOUNTY;
-
-				const positions = new Float32Array( numParticles * 3 );
-				const scales = new Float32Array( numParticles );
-
-				let i = 0, j = 0;
-
-				for ( let ix = 0; ix < AMOUNTX; ix ++ ) {
-
-					for ( let iy = 0; iy < AMOUNTY; iy ++ ) {
-
-						positions[ i ] = ix * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 ); // x
-						positions[ i + 1 ] = 0; // y
-						positions[ i + 2 ] = iy * SEPARATION - ( ( AMOUNTY * SEPARATION ) / 2 ); // z
-
-						scales[ j ] = 1;
-
-						i += 3;
-						j ++;
-
-					}
-
-				}
-
-				const geometry = new THREE.BufferGeometry();
-				geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-				geometry.setAttribute( 'scale', new THREE.BufferAttribute( scales, 1 ) );
-
-				const material = new THREE.ShaderMaterial( {
-
-					uniforms: {
-						color: { value: new THREE.Color( 0xffffff ) },
-					},
-					vertexShader: document.getElementById( 'vertexshader' ).textContent,
-					fragmentShader: document.getElementById( 'fragmentshader' ).textContent
-
-				} );  
-
-
-                
-				particles = new THREE.Points( geometry, material );
-				scene.add( particles );
-
-				//
-
-				renderer = new THREE.WebGLRenderer( { antialias: true } );
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				container.appendChild( renderer.domElement );
-
-
-				container.style.touchAction = 'none';
-				//container.addEventListener( 'pointermove', onPointerMove );
-
-				window.addEventListener( 'resize', onWindowResize );
-            }
-
-            function animate() {
-				requestAnimationFrame( animate );
-                render()
-			};
-
             
-			function onWindowResize() 
-            {
-                windowHalfX = window.innerWidth / 2;
-                windowHalfY = window.innerHeight / 2;
-
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-
-                renderer.setSize( window.innerWidth, window.innerHeight);
-            }
-
-            function onPointerMove( event ) 
-            {
-				if ( event.isPrimary === false ) return;
-
-				mouseX = event.clientX - windowHalfX;
-				mouseY = event.clientY - windowHalfY;
-			}
-
-            function render() 
-            {
-
-                camera.position.x += ( mouseX - camera.position.x ) * .005;
-                camera.position.y += ( - mouseY - camera.position.y ) * .005 + 1;
-                camera.lookAt( scene.position );
-
-                const positions = particles.geometry.attributes.position.array;
-                const scales = particles.geometry.attributes.scale.array;
-
-                let i = 0, j = 0;
-
-                for ( let ix = 0; ix < AMOUNTX; ix ++ ) 
-                {
-                    for ( let iy = 0; iy < AMOUNTY; iy ++ ) 
-                    {
-                        positions[ i + 1 ] = ( Math.sin( ( ix + count ) * 0.1 ) * 50 ) +
-                                        ( Math.sin( ( iy + count ) * 0.3 ) * 50 );
-
-                        scales[ j ] = ( Math.sin( ( ix + count ) * 0.1 ) + 1 ) * 20 +
-                                        ( Math.sin( ( iy + count ) * 0.3 ) + 1 ) * 20;
-
-                        i += 3;
-                        j ++;
-                    }
-                }
-
-                particles.geometry.attributes.position.needsUpdate = true;
-                particles.geometry.attributes.scale.needsUpdate = true;
-
-                renderer.render( scene, camera );
-
-                count += 0.1;
-
-            }
 		</script>
+        <script src="./js/animation.js"></script>
 
-        <div>Website Underconstruction</div>
+        <!-- Load React. -->
+        <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+        <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+
+        <script src="./js/like_button.js"></script>
+        
+        
     </body>
 </html>
 
